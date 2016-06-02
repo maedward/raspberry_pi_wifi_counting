@@ -91,6 +91,14 @@ def post_wifi_data(data):
     print response
 
 
+def get_location():
+    import requests
+    url = "http://ip-api.com/json/"
+    response = requests.get(url)
+    json = response.json()
+    return json['lat'], json['lon']
+
+
 def create_wifi_data(last_seen, mac_address, ap_mac, ap_name, power):
     class DatetimeEncoder(json.JSONEncoder):
          def default(self, obj):
@@ -107,7 +115,7 @@ def create_wifi_data(last_seen, mac_address, ap_mac, ap_name, power):
     wifi_data['category'] = 'Motherapp_office'
     wifi_data['action'] = 'Check_point'
     wifi_data['label'] = ''
-    wifi_data['location_name'] = 'B'
+    wifi_data['location_name'] = 'C'
     wifi_data['device_mac'] = mac_address
     wifi_data['power'] = power
     wifi_data['router_mac'] = ap_mac
