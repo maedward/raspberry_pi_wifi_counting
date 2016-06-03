@@ -6,8 +6,10 @@
 import sys, time
 import subprocess, StringIO, csv, datetime
 from time import sleep
-#from grove_rgb_lcd import *
 import urllib2, json
+from send_device_info import *
+import utils
+from config import *
 
 # Configurations
 
@@ -81,22 +83,17 @@ def hitGA(last_seen, mac_address, ap_mac, ap_name):
 
 #post data to server
 def post_wifi_data(data):
-    url = "http://edward.hkdev.motherapp.com/dashboard/add_wifi_data/"
+    url = ADD_WIFI_DATA_API
     json_data = json.dumps(data)
     req = urllib2.Request(url, json_data, {'Content-Type': 'application/json'})
     f = urllib2.urlopen(req)
     response = f.read()
     f.close()
 
+    #send device info to server
+    send_device_info()
+
     print response
-
-
-def get_location():
-    import requests
-    url = "http://ip-api.com/json/"
-    response = requests.get(url)
-    json = response.json()
-    return json['lat'], json['lon']
 
 
 def create_wifi_data(last_seen, mac_address, ap_mac, ap_name, power):
@@ -115,7 +112,7 @@ def create_wifi_data(last_seen, mac_address, ap_mac, ap_name, power):
     wifi_data['category'] = 'Motherapp_office'
     wifi_data['action'] = 'Check_point'
     wifi_data['label'] = ''
-    wifi_data['location_name'] = 'C'
+    wifi_data['location_name'] = utils.get_mac()
     wifi_data['device_mac'] = mac_address
     wifi_data['power'] = power
     wifi_data['router_mac'] = ap_mac

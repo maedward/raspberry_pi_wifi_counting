@@ -30,8 +30,5 @@ def create_device_info():
     return device_info
 
 
-def main():
+def send_device_info():
     post_device_info(create_device_info())
-
-
-main()
