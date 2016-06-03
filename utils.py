@@ -3,6 +3,7 @@ import requests
 import json
 import os
 import datetime as dt
+from config import *
 
 
 def get_mac():
@@ -28,7 +29,7 @@ def get_info():
     last_modified_date = dt.datetime.fromtimestamp(
         os.path.getmtime(JSON_FILE_NAME) if os.path.isfile(JSON_FILE_NAME) else 0)
     if not os.path.isfile(JSON_FILE_NAME) or dt.datetime.now() < last_modified_date - dt.timedelta(hours=1):
-        url = "http://ip-api.com/json/"
+        url = IP_JSON
         response = requests.get(url)
         json_data = response.json()
 

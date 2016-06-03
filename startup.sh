@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo mount -t tmpfs -o size=10M tmpfs /tmp/
 #sudo airmon-ng check kill
 
 sudo airmon-ng stop wlan1mon
