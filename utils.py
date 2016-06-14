@@ -4,6 +4,7 @@ import json
 import os
 import datetime as dt
 from config import *
+import subprocess, StringIO, csv
 
 
 def get_mac():
@@ -49,3 +50,18 @@ def get_location():
 
 def get_external_ip():
     return get_info()['query']
+
+
+def get_router_mac(default_adapter="wlan0"):
+    try:
+        cmd = r"arp | grep %s | awk -F ' ' '{print $3}'" % default_adapter
+        data = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read()
+        router_mac = StringIO.StringIO(data).getvalue()
+        print "Testing:%s" % router_mac
+        if len(router_mac) > 20 or len(router_mac) == 0:
+            return None
+
+        return router_mac
+    except IndexError:
+        pass
+    return None

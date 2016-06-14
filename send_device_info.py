@@ -20,6 +20,7 @@ def create_device_info():
     device_info['internal_ip'] = get_internal_ip()
     device_info['external_ip'] = get_external_ip()
     device_info['mac'] = get_mac()
+    device_info['router_mac'] = get_router_mac()
     device_info['lat'], device_info['lon'] = get_location()
     device_info['city'] = get_info()['city']
     device_info['country'] = get_info()['country']
