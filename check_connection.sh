@@ -1,5 +1,5 @@
 output=$(python /app/raspberry_pi_wifi_counting/check_connection.py 2>&1)
-if [[ $output = "True" ]]; then
+if [ $output ]; then
     echo "success"
 else
     echo "failure: $output"
