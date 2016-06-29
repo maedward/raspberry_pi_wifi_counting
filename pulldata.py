@@ -20,13 +20,13 @@ GA_ID = "UA-75128946-1"
 use_exclusion = True
 exclusion_list_filename = "exclusion.txt"
 
-# Tune the signal strength to control the area of devices we want to monitor: 
+# Tune the signal strength to control the area of devices we want to monitor:
 # -30 dBm: Max achievable signal strength
 # -67 dBm: Min signal strength for VoIP/streaming video
 # -70 dBm: Min signal strength for reliable packet delivery
 # -80 dBm: Min signal strength for basic connectivity (may be unreliable)
 # -90 dBm: Approaching or drowning in the noise floor.
-# typical: -60 
+# typical: -60
 signal_strength_threshold = -30
 
 # devices have no WIFI data tranmission (in minutes) will be ignored
@@ -84,8 +84,8 @@ def hitGA(last_seen, mac_address, ap_mac, ap_name):
 #post data to server
 def post_wifi_data(data):
     #check wifi connection
-    cmd = r"sh check_connection.sh"
-    subprocess.call(cmd)
+    #cmd = r"sh check_connection.sh"
+    #subprocess.Popen(cmd, shell=True)
 
     url = ADD_WIFI_DATA_API
     json_data = json.dumps(data)
@@ -195,9 +195,9 @@ def fetch_data():
             if elapsed >= datetime.timedelta(minutes=idle_threshold):
                 # Device idled too long, we do not count it
                 continue
-            
+
             #send to GA
-            hitGA(last_seen,current_mac, ap_mac, ap_name)
+            #hitGA(last_seen,current_mac, ap_mac, ap_name)
 
             #bulk post data
             wifi_data_list.append(create_wifi_data(last_seen, current_mac, ap_mac, ap_name, power))
