@@ -83,16 +83,16 @@ def hitGA(last_seen, mac_address, ap_mac, ap_name):
 
 #post data to server
 def post_wifi_data(data):
+    #check wifi connection
+    cmd = r"sh check_connection.sh"
+    subprocess.call(cmd)
+
     url = ADD_WIFI_DATA_API
     json_data = json.dumps(data)
     req = urllib2.Request(url, json_data, {'Content-Type': 'application/json'})
     f = urllib2.urlopen(req)
     response = f.read()
     f.close()
-
-    #check wifi connection
-    cmd = r"sh check_connection.sh&"
-    subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read()
 
     #send device info to server
     send_device_info()
