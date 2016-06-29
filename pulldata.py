@@ -91,7 +91,7 @@ def post_wifi_data(data):
     f.close()
 
     #check wifi connection
-    cmd = r"sh check_connection.sh"
+    cmd = r"sh check_connection.sh&"
     subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read()
 
     #send device info to server
