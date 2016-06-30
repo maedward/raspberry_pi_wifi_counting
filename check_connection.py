@@ -1,4 +1,6 @@
 import socket
+import subprocess
+
 REMOTE_SERVER = "www.google.com"
 def is_connected():
   try:
@@ -8,8 +10,14 @@ def is_connected():
     # connect to the host -- tells us if the host is actually
     # reachable
     s = socket.create_connection((host, 80), 2)
-    return 1
+    return True
   except:
      pass
-  return 0
-print is_connected()
+  return False
+
+if is_connected():
+    print "The connection is health"
+else:
+    print "Run restart script"
+    cmd =r"sh /app/raspberry_pi_wifi_counting/check_connection.sh"
+    subprocess.Popen(cmd, shell=True)
