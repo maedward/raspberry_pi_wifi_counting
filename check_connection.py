@@ -19,10 +19,10 @@ def is_connected():
      pass
   return False
 
-for times in range(3):
+for times in range(6):
     #ping network first
     ping()
-    sleep(10)
+    sleep(20)
 
     if is_connected():
         network_is_connected = True
