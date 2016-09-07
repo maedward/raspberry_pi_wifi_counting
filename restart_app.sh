@@ -1,0 +1,1 @@
+curl -X POST --header "Content-Type:application/json" --data '{"appId": 92977}' "$RESIN_SUPERVISOR_ADDRESS/v1/restart?apikey=$RESIN_SUPERVISOR_API_KEY"
