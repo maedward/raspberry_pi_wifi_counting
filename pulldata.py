@@ -4,9 +4,8 @@
 # http://www.aircrack-ng.org/doku.php?id=airodump-ng
 ###
 import sys, time
-import subprocess, StringIO, csv, datetime
+import datetime
 from time import sleep
-import urllib2, json
 from send_device_info import *
 import utils
 from config import *
@@ -61,6 +60,7 @@ def mac_lookup(macaddr):
     for device in known_devices_list:
         if macaddr in device:
             return (device)[1]
+
     return macaddr.replace(":", "")
 
 
@@ -74,10 +74,13 @@ def is_known_device(macaddr):
 def hitGA(last_seen, mac_address, ap_mac, ap_name):
     #print("sent to GA")
     label = last_seen.replace(" ", "") + "||" + mac_address
+
     if ap_mac != None:
         label += "||" + ap_mac.replace(" ", "")
+
     if ap_name != None and ap_name != "":
         label += "||" + ap_name.replace(" ", "_")
+
     urllib2.urlopen("http://www.google-analytics.com/collect?v=1&tid=%s&cid=%s&t=event&ec=Movement&ea=Office&el=%s" % (GA_ID, mac_address, label)).close
 
 
@@ -148,8 +151,6 @@ def fetch_data():
     if (adhoc_exclusionlist_building_time > 0) and (datetime.datetime.now() - scanner_start_time) < datetime.timedelta(
             minutes=adhoc_exclusionlist_building_time):
         print "*** Building Adhoc exclusion list (%s minutes) ***" % adhoc_exclusionlist_building_time
-        #setRGB(72, 61, 139)
-        #setText('Building Adhoc  exclusion list')
         building_adhoc_list = True
 
     else:
@@ -163,8 +164,6 @@ def fetch_data():
 
         # If the log is not ready, nothing we can do
         if f.len == 0:
-            #setRGB(168, 0, 0)
-            #setText('Waiting for\nsignal log...')
             return 0
 
         # convert the data to a list of dict() objects
@@ -223,8 +222,10 @@ def fetch_data():
             iosmacidentifier = current_mac[1]
             if iosmacidentifier in ['2', '6', 'A', 'E']:
                 iosmaclist.append(current_mac)
+
                 if building_adhoc_list:
                     adhoc_exclusionlist.append(current_mac)
+
                 continue
 
             # No more rules to proceed. Add to the discovered device list
@@ -255,21 +256,11 @@ def fetch_data():
                 print "... ", addr
                 lcd_device_list += addr[-4:] + " "
 
-        # Display device list to LCD
-        if not building_adhoc_list:
-            if len(lcd_device_list) == 0:
-                lcd_device_list = "No discovered  device"
-            #setRGB(0, 0, 0)
-            #setText(lcd_device_list)
-
         return len(devicelist)
 
     except IndexError:
         # Sometimes airodump-ng produces corrupted log file
         # We can simply empty the file, it will regenerate during the next channel scan
-
-        #setRGB(168, 0, 0)
-        #setText("Resetting log...")
         print "IndexError - Reseting log file"
 
         cmd = r"echo '' > `ls -Art /tmp/capture*.csv | grep -v kismet | tail -n 1`"
@@ -277,8 +268,6 @@ def fetch_data():
         return 0
 
     except Exception, e:
-        #setRGB(168, 0, 0)
-        #setText("Error:\n" + str(e))
         print "Exception - ", e
         return 0
 
@@ -293,10 +282,6 @@ def main():
 
         except Exception, e:
             print "Invalid adhoc exclusion list building time. Using default %s minutes" % adhoc_exclusionlist_building_time
-
-    # show loading screen
-    #setText("Initializing...")
-    #setRGB(0, 0, 0)
 
     while True:
         print '-' * 50
