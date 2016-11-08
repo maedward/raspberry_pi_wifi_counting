@@ -98,12 +98,12 @@ class DBHelper():
         self.callApi(in_count, out_count)
 
 
-    def send_raspberry_pi_att(entity_code, in_data, out_data, datetime_str, domain=DOMAIN):
+    def send_raspberry_pi_att(self, entity_code, in_data, out_data, datetime_str, domain=DOMAIN):
         url = "https://" + DOMAIN + "/api/raspberry_pi/save_att/"
         payload = {"entity_code": entity_code, "in_data":in_data, "out_data":out_data, "create_time": datetime_str}
         print payload
         print url
-        response = requests.post(url, data=payload)
+        response = requests.post(url, data=payload, verify=False)
         return response.text
 
     def callApi(self, in_count, out_count):
