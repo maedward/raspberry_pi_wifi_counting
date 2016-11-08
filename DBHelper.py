@@ -43,7 +43,7 @@ class DBHelper():
 
         #update minutesCount
         self.minutesCount += 1
-        if self.checkPerMinutes >= self.checkPerMinutes*2:
+        if self.minutesCount >= self.checkPerMinutes*2:
             self.checkDiff()
             self.minutesCount -= self.checkPerMinutes
 
