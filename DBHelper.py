@@ -50,7 +50,7 @@ class DBHelper():
     def checkDiff(self):
         print(">>CheckDiff")
 
-        a_table = "select * from wifi_data where update_date > '%s' and update_date < '%s'" %\
+        a_table = "select distinct client_mac from wifi_data where update_date > '%s' and update_date < '%s'" %\
                   ((datetime.datetime.now() - datetime.timedelta(minutes=self.checkPerMinutes*2)).strftime("%Y-%m-%d %H:%M:%S"),
                    (datetime.datetime.now() - datetime.timedelta(minutes=self.checkPerMinutes)).strftime("%Y-%m-%d %H:%M:%S"))
         print a_table
@@ -59,7 +59,7 @@ class DBHelper():
         print(">>Show A table")
         print(result)
 
-        b_table = "select * from wifi_data where update_date > '%s' and update_date < '%s'" %\
+        b_table = "select distinct client_mac from wifi_data where update_date > '%s' and update_date < '%s'" %\
           ((datetime.datetime.now() - datetime.timedelta(minutes=self.checkPerMinutes)).strftime("%Y-%m-%d %H:%M:%S"),
            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         self.c.execute(b_table)
@@ -81,14 +81,14 @@ class DBHelper():
         # print(">>Show B table")
         # print(result)
 
-        out_sql = "select count(*) from (%s) a left join (%s) b on a.id = b.id where b.id is null" % (a_table, b_table)
+        out_sql = "select count(*) from (%s) a left join (%s) b on a.client_mac = b.client_mac where b.client_mac is null" % (a_table, b_table)
         self.c.execute(out_sql)
         result = self.c.fetchall()
         print(">>Show Out count")
         print(result[0][0])
         out_count = result[0][0]
 
-        in_sql = "select count(*) from (%s) a left join (%s) b on a.id = b.id where b.id is null" % (b_table, a_table)
+        in_sql = "select count(*) from (%s) a left join (%s) b on a.client_mac = b.client_mac where b.client_mac is null" % (b_table, a_table)
         self.c.execute(in_sql)
         result = self.c.fetchall()
         print(">>Show In count")
