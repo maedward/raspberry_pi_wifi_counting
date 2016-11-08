@@ -10,6 +10,10 @@ from send_device_info import *
 import utils
 from config import *
 
+from DBHelper import DBHelper
+
+dbhelper = DBHelper()
+
 # Configurations
 
 #GA ID
@@ -180,6 +184,7 @@ def fetch_data():
         devicelist = []
 
         wifi_data_list = []
+        wifi_data_list_for_sqlite = []
 
         # filtering
         for row in rawstationlist:
@@ -201,6 +206,8 @@ def fetch_data():
 
             #bulk post data
             wifi_data_list.append(create_wifi_data(last_seen, current_mac, ap_mac, ap_name, power))
+            last_seen_formated = datetime.datetime.strptime(last_seen, " %Y-%m-%d %H:%M:%S")
+            wifi_data_list_for_sqlite.append((last_seen_formated, ap_mac, current_mac, power))
 
             if current_mac in exclusionlist and not is_known_device(current_mac):
                 # print "filtered: in exclusion list - ", current_mac
@@ -235,6 +242,8 @@ def fetch_data():
 
         #Post bulk data to server
         post_wifi_data(wifi_data_list)
+        dbhelper.insertWifiData(wifi_data_list_for_sqlite)
+
 
         # Display device list to console
         lcd_device_list = ""
