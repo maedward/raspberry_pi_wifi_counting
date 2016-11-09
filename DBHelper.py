@@ -50,7 +50,7 @@ class DBHelper():
     def checkDiff(self):
         print(">>CheckDiff")
 
-        a_table = "select distinct client_mac from wifi_data where update_date > '%s' and update_date < '%s'" %\
+        a_table = "select distinct client_mac from wifi_data where update_date > '%s' and update_date < '%s' and signal > -75 signal < -1" %\
                   ((datetime.datetime.now() - datetime.timedelta(minutes=self.checkPerMinutes*2)).strftime("%Y-%m-%d %H:%M:%S"),
                    (datetime.datetime.now() - datetime.timedelta(minutes=self.checkPerMinutes)).strftime("%Y-%m-%d %H:%M:%S"))
         print a_table
@@ -59,7 +59,7 @@ class DBHelper():
         print(">>Show A table")
         print(result)
 
-        b_table = "select distinct client_mac from wifi_data where update_date > '%s' and update_date < '%s'" %\
+        b_table = "select distinct client_mac from wifi_data where update_date > '%s' and update_date < '%s' and signal > -75 signal < -1" %\
           ((datetime.datetime.now() - datetime.timedelta(minutes=self.checkPerMinutes)).strftime("%Y-%m-%d %H:%M:%S"),
            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         self.c.execute(b_table)
