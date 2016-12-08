@@ -99,7 +99,7 @@ class DBHelper():
 
 
     def send_raspberry_pi_att(self, device_id, in_data, out_data, datetime_str, domain=DOMAIN):
-        url = "http://" + DOMAIN + "/api/save_entity_att/"
+        url = "https://" + DOMAIN + "/api/save_entity_att/"
         payload = {"device_id": device_id, "in_data":in_data, "out_data":out_data, "create_time": datetime_str}
         print payload
         print url
