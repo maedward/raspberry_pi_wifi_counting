@@ -241,8 +241,8 @@ def fetch_data():
             devicelist.append(current_mac)
 
         #Post bulk data to server
-        post_wifi_data(wifi_data_list)
         dbhelper.insertWifiData(wifi_data_list_for_sqlite)
+        post_wifi_data(wifi_data_list)
 
 
         # Display device list to console

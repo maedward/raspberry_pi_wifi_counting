@@ -36,6 +36,7 @@ class DBHelper():
         #Testing data
         #data = [('2016-11-04 12:12:10', 'b8:27:eb:e3:c0:4c', 'B0:65:BD:F0:B1:1D', -31),
         #        ('2016-11-04 12:12:11', 'b8:27:eb:e3:c0:4c', 'B0:65:BD:F0:B1:1D', -31)]
+        print(">>Insert SQL data function called")
 
         self.c.executemany("INSERT INTO wifi_data (date,this_mac,client_mac,signal) VALUES  (?,?,?,?)", data)
         self.conn.commit()
