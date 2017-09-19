@@ -111,7 +111,7 @@ class DBHelper():
         print(">>Call Api")
 
         #TODO:
-        self.send_raspberry_pi_att(utils.get_mac(), in_count, out_count, datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
+        #self.send_raspberry_pi_att(utils.get_mac(), in_count, out_count, datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"))
 
         #remove the 10 day
         self.removeOldRecords()
