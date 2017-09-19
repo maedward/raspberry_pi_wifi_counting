@@ -12,10 +12,10 @@ sudo airmon-ng start wlan1
 cd /app/raspberry_pi_wifi_counting/
 
 #start passing scanned records to server
-sudo python /app/raspberry_pi_wifi_counting/pulldata.py > /dev/null 2>&1 &
+sudo python /app/raspberry_pi_wifi_counting/pulldata.py &
 
 #keep checking the network available
-(sleep 600; watch -n 120 python /app/raspberry_pi_wifi_counting/check_connection.py > /dev/null 2>&1) &
+#(sleep 600; watch -n 120 python /app/raspberry_pi_wifi_counting/check_connection.py > /dev/null 2>&1) &
 
 #start the wifi scanning and write it to tmp folder
 sudo airodump-ng --cswitch 0 wlan1mon  --output-format csv --write /tmp/capture > /dev/null 2>&1
