@@ -242,7 +242,14 @@ def fetch_data():
 
         #Post bulk data to server
         dbhelper.insertWifiData(wifi_data_list_for_sqlite)
-        post_wifi_data(wifi_data_list)
+        POST_NOT_SUCCESS = True
+        while POST_NOT_SUCCESS:
+            try:
+                post_wifi_data(wifi_data_list)
+                POST_NOT_SUCCESS = False
+            except:
+                pass
+
 
 
         # Display device list to console
